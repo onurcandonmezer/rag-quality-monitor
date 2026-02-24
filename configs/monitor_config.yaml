@@ -1,0 +1,56 @@
+# RAG Quality Monitor Configuration
+# Alert thresholds and monitoring settings
+
+thresholds:
+  faithfulness:
+    warning: 0.7
+    critical: 0.5
+  relevance:
+    warning: 0.7
+    critical: 0.5
+  recall:
+    warning: 0.6
+    critical: 0.4
+  precision:
+    warning: 0.6
+    critical: 0.4
+  overall:
+    warning: 0.65
+    critical: 0.45
+  hallucination:
+    warning: 0.3
+    critical: 0.5
+
+monitoring:
+  # How often to check metrics (seconds)
+  check_interval: 300
+  # Number of recent evaluations to consider for trends
+  history_window: 50
+  # Minimum evaluations before alerting
+  min_evaluations: 5
+
+trend_detection:
+  # Minimum number of data points for trend analysis
+  min_data_points: 10
+  # Percentage drop to trigger degradation alert
+  degradation_threshold: 0.1
+  # Rolling window size for trend smoothing
+  rolling_window: 5
+
+alerts:
+  # Enable/disable alert types
+  enable_email: false
+  enable_slack: false
+  enable_console: true
+  # Max alerts per hour to avoid spam
+  max_alerts_per_hour: 10
+
+chunk_analysis:
+  # Minimum chunk length (characters)
+  min_chunk_length: 50
+  # Maximum chunk length (characters)
+  max_chunk_length: 2000
+  # Maximum overlap ratio between adjacent chunks
+  max_overlap_ratio: 0.5
+  # Minimum information density score
+  min_information_density: 0.3

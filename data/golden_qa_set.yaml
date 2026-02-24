@@ -1,0 +1,132 @@
+# Golden Q&A Test Set
+# Curated question-answer pairs for RAG quality regression testing
+
+version: "1.0"
+description: "Golden Q&A pairs for RAG quality monitoring"
+
+qa_pairs:
+  - id: qa_001
+    question: "What is retrieval-augmented generation?"
+    expected_answer: "Retrieval-Augmented Generation (RAG) is a technique that combines information retrieval with text generation. It retrieves relevant documents from a knowledge base and uses them as context for a language model to generate accurate, grounded responses."
+    context: "Retrieval-Augmented Generation (RAG) is an AI framework that enhances large language model outputs by retrieving relevant documents from external knowledge bases. The retrieved documents serve as context for the language model, enabling it to generate more accurate and factually grounded responses. RAG was introduced by Lewis et al. in 2020."
+    tags: ["definition", "basics"]
+    difficulty: "easy"
+
+  - id: qa_002
+    question: "What are the main components of a RAG pipeline?"
+    expected_answer: "A RAG pipeline consists of three main components: a retriever that fetches relevant documents from a knowledge base, an indexing system that organizes and stores documents for efficient retrieval, and a generator (typically a large language model) that produces answers using the retrieved context."
+    context: "A typical RAG pipeline has three core components. First, the indexing component processes and stores documents in a vector database for efficient similarity search. Second, the retriever component takes a user query and finds the most relevant documents from the index using techniques like dense retrieval or BM25. Third, the generator component, usually a large language model, takes the retrieved documents as context and generates a coherent answer to the user's question."
+    tags: ["architecture", "components"]
+    difficulty: "easy"
+
+  - id: qa_003
+    question: "How does chunking affect RAG performance?"
+    expected_answer: "Chunking affects RAG performance by determining the granularity of retrieved information. Chunks that are too small may lack sufficient context, while chunks that are too large may include irrelevant information. Optimal chunk size depends on the use case, but typically ranges from 256 to 1024 tokens."
+    context: "Document chunking is a critical step in RAG pipelines. The size and strategy of chunks directly impacts retrieval quality. Small chunks (under 100 tokens) often lack context and coherence. Large chunks (over 2000 tokens) may dilute relevant information with noise. Research suggests optimal chunk sizes between 256-1024 tokens, with overlap of 10-20% between adjacent chunks to maintain context continuity."
+    tags: ["chunking", "optimization"]
+    difficulty: "medium"
+
+  - id: qa_004
+    question: "What is hallucination in the context of RAG systems?"
+    expected_answer: "Hallucination in RAG systems occurs when the language model generates information that is not supported by or contradicts the retrieved context. This can include fabricated facts, incorrect attributions, or statements that go beyond what the source documents contain."
+    context: "Hallucination is a significant challenge in RAG systems. It occurs when the generator produces content that is not grounded in the retrieved documents. Types of hallucination include intrinsic hallucination (contradicting the source), extrinsic hallucination (adding unsupported information), and factual fabrication (inventing facts entirely). Mitigation strategies include improved retrieval, constrained generation, and post-generation verification."
+    tags: ["hallucination", "quality"]
+    difficulty: "medium"
+
+  - id: qa_005
+    question: "What embedding models are commonly used for RAG retrieval?"
+    expected_answer: "Common embedding models for RAG retrieval include OpenAI's text-embedding-ada-002, Sentence-BERT, E5, and BGE models. These models convert text into dense vector representations that enable semantic similarity search."
+    context: "Popular embedding models for RAG retrieval include OpenAI's text-embedding-ada-002 and text-embedding-3-small, open-source models like Sentence-BERT (all-MiniLM-L6-v2), E5 (intfloat/e5-large-v2), and BGE (BAAI/bge-large-en-v1.5). These models map text to dense vectors in a high-dimensional space where semantically similar texts are close together, enabling efficient nearest-neighbor search for document retrieval."
+    tags: ["embeddings", "retrieval"]
+    difficulty: "medium"
+
+  - id: qa_006
+    question: "What is the difference between dense and sparse retrieval?"
+    expected_answer: "Dense retrieval uses learned embeddings to represent queries and documents as continuous vectors, capturing semantic meaning. Sparse retrieval uses traditional methods like BM25 or TF-IDF that rely on exact keyword matching and term frequency. Dense retrieval excels at semantic understanding while sparse retrieval is better for exact term matching."
+    context: "Retrieval methods in RAG fall into two categories. Sparse retrieval methods like BM25 and TF-IDF create sparse vector representations based on term frequencies, excelling at exact keyword matching and being computationally efficient. Dense retrieval uses neural networks to encode queries and documents into dense low-dimensional vectors, capturing semantic relationships beyond exact matches. Hybrid approaches combine both methods for improved performance."
+    tags: ["retrieval", "architecture"]
+    difficulty: "medium"
+
+  - id: qa_007
+    question: "How can you evaluate RAG system faithfulness?"
+    expected_answer: "RAG faithfulness can be evaluated by checking whether generated answers are supported by the retrieved context. Methods include claim-level verification, entailment scoring, and measuring the overlap between answer statements and context content. A faithful answer should not contain information beyond what the context provides."
+    context: "Evaluating faithfulness in RAG systems involves verifying that generated answers are grounded in retrieved documents. Common approaches include: decomposing answers into atomic claims and checking each against the context, using natural language inference models for entailment scoring, computing token-level overlap metrics, and human evaluation protocols. Tools like RAGAS, TruLens, and DeepEval provide automated faithfulness scoring."
+    tags: ["evaluation", "faithfulness"]
+    difficulty: "hard"
+
+  - id: qa_008
+    question: "What is a vector database and why is it important for RAG?"
+    expected_answer: "A vector database is a specialized database designed to store and query high-dimensional vector embeddings efficiently. It is important for RAG because it enables fast similarity search over large document collections, allowing the retriever to quickly find the most relevant documents for a given query."
+    context: "Vector databases are purpose-built storage systems for high-dimensional vector data. They support approximate nearest neighbor (ANN) search algorithms like HNSW, IVF, and LSH for fast similarity queries. Popular options include Pinecone, Weaviate, Milvus, Qdrant, and ChromaDB. In RAG systems, vector databases store document embeddings and enable sub-second retrieval of relevant documents from millions of entries."
+    tags: ["vector-db", "infrastructure"]
+    difficulty: "easy"
+
+  - id: qa_009
+    question: "What strategies can reduce hallucination in RAG?"
+    expected_answer: "Strategies to reduce hallucination include improving retrieval quality to ensure relevant context, using constrained decoding to keep generation grounded, implementing post-generation fact-checking, adding citation requirements, and fine-tuning models on faithful generation tasks."
+    context: "Several strategies help mitigate hallucination in RAG systems. Retrieval improvement through better embeddings and re-ranking reduces irrelevant context. Constrained generation techniques limit the model to information present in retrieved documents. Post-generation verification checks claims against sources. Citation-aware generation requires the model to reference specific passages. Fine-tuning on faithfulness-focused datasets teaches models to stay grounded. Prompt engineering with explicit instructions to avoid speculation also helps."
+    tags: ["hallucination", "mitigation"]
+    difficulty: "hard"
+
+  - id: qa_010
+    question: "What is re-ranking in RAG and why is it used?"
+    expected_answer: "Re-ranking is a second-stage retrieval step that reorders initially retrieved documents based on their relevance to the query. It is used because initial retrieval (especially dense retrieval) may not perfectly rank documents. Cross-encoder models are commonly used for re-ranking as they can more accurately assess query-document relevance."
+    context: "Re-ranking is a technique applied after initial document retrieval to improve result quality. While first-stage retrievers like bi-encoders process queries and documents independently for speed, re-rankers use cross-encoder architectures that jointly process query-document pairs for more accurate relevance scoring. Popular re-ranking models include Cohere Rerank, cross-encoder/ms-marco models, and ColBERT. Re-ranking typically improves retrieval precision by 10-30%."
+    tags: ["retrieval", "re-ranking"]
+    difficulty: "medium"
+
+  - id: qa_011
+    question: "What are the benefits of using metadata filtering in RAG?"
+    expected_answer: "Metadata filtering allows narrowing down the search space before or during retrieval by filtering on document attributes like date, source, category, or author. This improves retrieval precision, reduces noise, and enables more targeted search results."
+    context: "Metadata filtering enhances RAG retrieval by leveraging structured attributes associated with documents. Filters can include date ranges, document types, categories, authors, and custom tags. Pre-filtering narrows the search space before vector similarity search, improving both speed and relevance. Post-filtering applies metadata constraints after initial retrieval. This approach is particularly useful for multi-tenant systems, temporal queries, and domain-specific applications."
+    tags: ["retrieval", "metadata"]
+    difficulty: "medium"
+
+  - id: qa_012
+    question: "What is the role of prompt engineering in RAG systems?"
+    expected_answer: "Prompt engineering in RAG involves crafting effective prompts that instruct the language model to use retrieved context appropriately. This includes formatting context clearly, providing instructions to base answers on the given context, and specifying output format requirements."
+    context: "Prompt engineering plays a crucial role in RAG system performance. Effective RAG prompts clearly present retrieved context, instruct the model to base answers solely on provided information, specify desired output format and tone, and include few-shot examples when needed. Common techniques include system prompts that establish grounding rules, context window management for multiple documents, and chain-of-thought prompting for complex reasoning over retrieved information."
+    tags: ["prompt-engineering", "generation"]
+    difficulty: "easy"
+
+  - id: qa_013
+    question: "How does context window size affect RAG generation?"
+    expected_answer: "Context window size limits how much retrieved information can be provided to the language model. A larger context window allows more documents to be included, potentially improving answer quality. However, too much context can lead to lost-in-the-middle effects where relevant information in the middle of the context is overlooked."
+    context: "The context window size of the underlying LLM directly impacts RAG performance. Models with larger context windows (e.g., 128k tokens) can process more retrieved documents simultaneously. However, research shows a 'lost in the middle' phenomenon where models attend more to information at the beginning and end of the context. Strategies to mitigate this include careful document ordering, context compression, and selective passage extraction."
+    tags: ["generation", "context-window"]
+    difficulty: "hard"
+
+  - id: qa_014
+    question: "What is hybrid search in the context of RAG?"
+    expected_answer: "Hybrid search combines dense vector search with sparse keyword search to leverage the strengths of both approaches. Dense search captures semantic meaning while sparse search handles exact term matching. Results from both methods are combined using techniques like reciprocal rank fusion."
+    context: "Hybrid search in RAG systems combines multiple retrieval strategies for improved results. It typically merges dense semantic search using vector embeddings with sparse lexical search using BM25 or similar algorithms. Fusion methods include reciprocal rank fusion (RRF), weighted linear combination, and learned score merging. Hybrid approaches consistently outperform single-method retrieval, particularly for queries that contain both semantic concepts and specific terminology."
+    tags: ["retrieval", "hybrid-search"]
+    difficulty: "medium"
+
+  - id: qa_015
+    question: "What metrics are used to evaluate RAG retrieval quality?"
+    expected_answer: "Common metrics for evaluating RAG retrieval quality include Mean Reciprocal Rank (MRR), Normalized Discounted Cumulative Gain (NDCG), precision at K, recall at K, and hit rate. These metrics measure how well the retriever finds and ranks relevant documents."
+    context: "RAG retrieval quality is assessed using information retrieval metrics. Mean Reciprocal Rank (MRR) measures the position of the first relevant result. NDCG evaluates ranking quality with graded relevance. Precision@K measures the fraction of relevant documents in the top K results. Recall@K measures the fraction of all relevant documents retrieved in top K. Hit Rate checks if any relevant document appears in top K. MAP (Mean Average Precision) provides a single-figure measure of quality across recall levels."
+    tags: ["evaluation", "metrics"]
+    difficulty: "hard"
+
+  - id: qa_016
+    question: "What is query transformation in RAG?"
+    expected_answer: "Query transformation involves modifying or expanding the original user query to improve retrieval results. Techniques include query decomposition into sub-queries, hypothetical document embedding (HyDE), query expansion with synonyms, and step-back prompting to generate more general queries."
+    context: "Query transformation techniques enhance RAG retrieval by reformulating user queries. HyDE (Hypothetical Document Embedding) generates a hypothetical answer and uses its embedding for retrieval. Query decomposition breaks complex queries into simpler sub-queries. Query expansion adds related terms and synonyms. Step-back prompting generates broader queries for better context retrieval. Multi-query approaches generate multiple query variations and merge results for improved recall."
+    tags: ["retrieval", "query-processing"]
+    difficulty: "hard"
+
+  - id: qa_017
+    question: "What is the purpose of document preprocessing in RAG?"
+    expected_answer: "Document preprocessing prepares raw documents for indexing in a RAG system. It includes steps like text extraction, cleaning, normalization, chunking, and metadata extraction. Proper preprocessing ensures high-quality inputs for the retrieval system and directly impacts overall RAG performance."
+    context: "Document preprocessing is a foundational step in RAG pipelines. It involves extracting text from various formats (PDF, HTML, DOCX), cleaning noise (headers, footers, boilerplate), normalizing text encoding and formatting, splitting into appropriately sized chunks, extracting and attaching metadata, and generating embeddings for vector storage. Quality preprocessing significantly impacts downstream retrieval accuracy and generation quality."
+    tags: ["preprocessing", "pipeline"]
+    difficulty: "easy"
+
+  - id: qa_018
+    question: "How do you handle multi-modal content in RAG systems?"
+    expected_answer: "Multi-modal RAG handles content beyond text, including images, tables, and charts. Approaches include using multi-modal embedding models that can process different content types, converting non-text content to text descriptions, and using vision-language models for image understanding during generation."
+    context: "Multi-modal RAG extends traditional text-based RAG to handle images, tables, audio, and video. Approaches include multi-modal embeddings (CLIP, ImageBind) for unified vector representation, OCR and table extraction for structured data, image captioning for visual content description, and multi-modal LLMs (GPT-4V, Gemini) for generation over mixed content types. Challenges include maintaining cross-modal alignment and handling modality-specific retrieval strategies."
+    tags: ["multi-modal", "advanced"]
+    difficulty: "hard"
