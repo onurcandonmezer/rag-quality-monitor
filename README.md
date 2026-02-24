@@ -1,6 +1,6 @@
 # RAG Quality Monitor
 
-[![CI](https://github.com/onurcandnmz/rag-quality-monitor/actions/workflows/ci.yml/badge.svg)](https://github.com/onurcandnmz/rag-quality-monitor/actions/workflows/ci.yml)
+[![CI](https://github.com/onurcandonmezer/rag-quality-monitor/actions/workflows/ci.yml/badge.svg)](https://github.com/onurcandonmezer/rag-quality-monitor/actions/workflows/ci.yml)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
@@ -59,7 +59,7 @@ RAG Quality Monitor provides a complete toolkit for ensuring and maintaining the
 
 ```bash
 # Clone the repository
-git clone https://github.com/onurcandnmz/rag-quality-monitor.git
+git clone https://github.com/onurcandonmezer/rag-quality-monitor.git
 cd rag-quality-monitor
 
 # Install with uv
