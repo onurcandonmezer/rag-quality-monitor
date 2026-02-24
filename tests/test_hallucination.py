@@ -114,7 +114,7 @@ class TestHallucinationDetection:
     def test_hallucination_result_properties(self, detector):
         result = detector.detect(
             "Python is a language created by Guido van Rossum.",
-            "Python was created by Guido van Rossum in 1991."
+            "Python was created by Guido van Rossum in 1991.",
         )
         assert isinstance(result.total_claims, int)
         assert isinstance(result.is_hallucinated, bool)
@@ -142,8 +142,5 @@ class TestHallucinationDetection:
 
     def test_custom_threshold(self):
         detector = HallucinationDetector(support_threshold=0.8)
-        result = detector.detect(
-            "Python is a language.",
-            "Python is a programming language."
-        )
+        result = detector.detect("Python is a language.", "Python is a programming language.")
         assert isinstance(result, HallucinationResult)

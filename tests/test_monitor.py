@@ -187,9 +187,7 @@ class TestQualityMonitor:
 
         all_alerts = []
         for i in range(5):
-            alerts = monitor.record_metric(
-                "faithfulness", 0.3, timestamp=base_time + i
-            )
+            alerts = monitor.record_metric("faithfulness", 0.3, timestamp=base_time + i)
             all_alerts.extend(alerts)
 
         # Should be capped

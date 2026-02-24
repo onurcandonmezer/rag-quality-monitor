@@ -390,9 +390,7 @@ class QualityMonitor:
         records = self.get_metric_history(metric)
 
         if len(records) < min_points:
-            avg_val = (
-                statistics.mean(r.value for r in records) if records else 0.0
-            )
+            avg_val = statistics.mean(r.value for r in records) if records else 0.0
             return TrendInfo(
                 metric=metric,
                 direction=TrendDirection.STABLE,
@@ -409,9 +407,7 @@ class QualityMonitor:
         x_mean = statistics.mean(x_values)
         y_mean = statistics.mean(values)
 
-        numerator = sum(
-            (x - x_mean) * (y - y_mean) for x, y in zip(x_values, values, strict=True)
-        )
+        numerator = sum((x - x_mean) * (y - y_mean) for x, y in zip(x_values, values, strict=True))
         denominator = sum((x - x_mean) ** 2 for x in x_values)
         slope = numerator / denominator if denominator != 0 else 0.0
 
@@ -497,9 +493,7 @@ class QualityMonitor:
 
         total_records = len(self._records)
         total_alerts = len(self._alerts)
-        critical_alerts = sum(
-            1 for a in self._alerts if a.severity == Severity.CRITICAL
-        )
+        critical_alerts = sum(1 for a in self._alerts if a.severity == Severity.CRITICAL)
 
         summary: dict[str, Any] = {
             "total_metrics_tracked": len(metrics),
@@ -509,11 +503,7 @@ class QualityMonitor:
             "degrading_metrics": [t.metric for t in degrading],
             "improving_metrics": [t.metric for t in improving],
             "health_status": (
-                "critical"
-                if critical_alerts > 0
-                else "warning"
-                if total_alerts > 0
-                else "healthy"
+                "critical" if critical_alerts > 0 else "warning" if total_alerts > 0 else "healthy"
             ),
         }
 

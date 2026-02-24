@@ -157,9 +157,7 @@ class GoldenQAManager:
         Args:
             result: A GoldenQAResult to use as baseline.
         """
-        self._baseline_scores = {
-            r.qa_pair.id: r.evaluation.overall_score for r in result.results
-        }
+        self._baseline_scores = {r.qa_pair.id: r.evaluation.overall_score for r in result.results}
 
     def run_test_suite(
         self,
@@ -223,13 +221,15 @@ class GoldenQAManager:
                 baseline = self._baseline_scores[pair.id]
                 drop = baseline - evaluation.overall_score
                 if drop > regression_threshold:
-                    regression_details.append({
-                        "id": pair.id,
-                        "question": pair.question,
-                        "baseline_score": baseline,
-                        "current_score": evaluation.overall_score,
-                        "score_drop": round(drop, 4),
-                    })
+                    regression_details.append(
+                        {
+                            "id": pair.id,
+                            "question": pair.question,
+                            "baseline_score": baseline,
+                            "current_score": evaluation.overall_score,
+                            "score_drop": round(drop, 4),
+                        }
+                    )
 
         total = len(results)
         passed_count = sum(1 for r in results if r.passed)
@@ -239,21 +239,11 @@ class GoldenQAManager:
         avg_scores = {}
         if results:
             avg_scores = {
-                "faithfulness": round(
-                    sum(r.evaluation.faithfulness for r in results) / total, 4
-                ),
-                "relevance": round(
-                    sum(r.evaluation.relevance for r in results) / total, 4
-                ),
-                "recall": round(
-                    sum(r.evaluation.recall for r in results) / total, 4
-                ),
-                "precision": round(
-                    sum(r.evaluation.precision for r in results) / total, 4
-                ),
-                "overall": round(
-                    sum(r.evaluation.overall_score for r in results) / total, 4
-                ),
+                "faithfulness": round(sum(r.evaluation.faithfulness for r in results) / total, 4),
+                "relevance": round(sum(r.evaluation.relevance for r in results) / total, 4),
+                "recall": round(sum(r.evaluation.recall for r in results) / total, 4),
+                "precision": round(sum(r.evaluation.precision for r in results) / total, 4),
+                "overall": round(sum(r.evaluation.overall_score for r in results) / total, 4),
             }
 
         return GoldenQAResult(

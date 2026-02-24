@@ -56,10 +56,40 @@ def _tokenize(text: str) -> list[str]:
 def _unique_tokens(text: str) -> set[str]:
     """Get unique meaningful tokens from text."""
     stop_words = {
-        "a", "an", "the", "is", "are", "was", "were", "be", "been",
-        "have", "has", "had", "do", "does", "did", "will", "would",
-        "to", "of", "in", "for", "on", "with", "at", "by", "from",
-        "and", "but", "or", "not", "it", "its", "this", "that",
+        "a",
+        "an",
+        "the",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "have",
+        "has",
+        "had",
+        "do",
+        "does",
+        "did",
+        "will",
+        "would",
+        "to",
+        "of",
+        "in",
+        "for",
+        "on",
+        "with",
+        "at",
+        "by",
+        "from",
+        "and",
+        "but",
+        "or",
+        "not",
+        "it",
+        "its",
+        "this",
+        "that",
     }
     tokens = _tokenize(text)
     return {t for t in tokens if t not in stop_words}
@@ -124,10 +154,25 @@ class ChunkAnalyzer:
             length_score = max(0.3, 1.0 - (avg_sentence_len - 40) / 60)
 
         transition_words = {
-            "however", "therefore", "furthermore", "moreover", "additionally",
-            "consequently", "meanwhile", "nevertheless", "similarly",
-            "specifically", "particularly", "including", "example",
-            "first", "second", "third", "finally", "also", "such",
+            "however",
+            "therefore",
+            "furthermore",
+            "moreover",
+            "additionally",
+            "consequently",
+            "meanwhile",
+            "nevertheless",
+            "similarly",
+            "specifically",
+            "particularly",
+            "including",
+            "example",
+            "first",
+            "second",
+            "third",
+            "finally",
+            "also",
+            "such",
         }
         tokens = set(_tokenize(text))
         transition_count = len(tokens & transition_words)
@@ -181,16 +226,10 @@ class ChunkAnalyzer:
         repetition = sum(c - 1 for c in word_counts.values() if c > 1) / total_words
         non_repetition_score = max(0.0, 1.0 - repetition)
 
-        capitalized_words = sum(
-            1 for w in text.split() if w and w[0].isupper() and len(w) > 1
-        )
+        capitalized_words = sum(1 for w in text.split() if w and w[0].isupper() and len(w) > 1)
         proper_noun_density = min(1.0, capitalized_words / max(1, len(all_tokens)) * 5)
 
-        density = (
-            0.5 * unique_ratio
-            + 0.3 * non_repetition_score
-            + 0.2 * proper_noun_density
-        )
+        density = 0.5 * unique_ratio + 0.3 * non_repetition_score + 0.2 * proper_noun_density
 
         return min(1.0, max(0.0, density))
 
@@ -371,25 +410,15 @@ class ChunkAnalyzer:
             "max_length": max(lengths),
             "median_length": sorted(lengths)[n // 2],
             "std_length": (
-                math.sqrt(sum((ln - avg_length) ** 2 for ln in lengths) / n)
-                if n > 1
-                else 0.0
+                math.sqrt(sum((ln - avg_length) ** 2 for ln in lengths) / n) if n > 1 else 0.0
             ),
-            "num_too_short": sum(
-                1 for c in analyzed if c.length < self.min_chunk_length
-            ),
-            "num_too_long": sum(
-                1 for c in analyzed if c.length > self.max_chunk_length
-            ),
+            "num_too_short": sum(1 for c in analyzed if c.length < self.min_chunk_length),
+            "num_too_long": sum(1 for c in analyzed if c.length > self.max_chunk_length),
             "num_high_overlap": sum(
-                1
-                for c in analyzed
-                if c.overlap_with_neighbors > self.max_overlap_ratio
+                1 for c in analyzed if c.overlap_with_neighbors > self.max_overlap_ratio
             ),
             "num_low_density": sum(
-                1
-                for c in analyzed
-                if c.information_density < self.min_information_density
+                1 for c in analyzed if c.information_density < self.min_information_density
             ),
         }
 
@@ -425,12 +454,8 @@ class ChunkAnalyzer:
 
         too_short = [c for c in chunks if c.length < self.min_chunk_length]
         too_long = [c for c in chunks if c.length > self.max_chunk_length]
-        high_overlap = [
-            c for c in chunks if c.overlap_with_neighbors > self.max_overlap_ratio
-        ]
-        low_density = [
-            c for c in chunks if c.information_density < self.min_information_density
-        ]
+        high_overlap = [c for c in chunks if c.overlap_with_neighbors > self.max_overlap_ratio]
+        low_density = [c for c in chunks if c.information_density < self.min_information_density]
 
         if too_short:
             pct = len(too_short) / len(chunks) * 100

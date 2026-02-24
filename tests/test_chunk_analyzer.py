@@ -59,7 +59,9 @@ class TestChunkAnalyzer:
 
     def test_analyze_too_long_chunk(self):
         analyzer = ChunkAnalyzer(max_chunk_length=50)
-        chunk = "This is a chunk that is definitely longer than fifty characters in total length here."
+        chunk = (
+            "This is a chunk that is definitely longer than fifty characters in total length here."
+        )
         result = analyzer.analyze_chunk(chunk, index=0)
         assert any("too long" in issue.lower() for issue in result.issues)
 

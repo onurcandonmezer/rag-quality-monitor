@@ -134,11 +134,13 @@ class TestGoldenQAManager:
         manager.load_from_list(sample_qa_data)
 
         # Set high baseline
-        manager.set_baseline({
-            "test_001": 0.95,
-            "test_002": 0.90,
-            "test_003": 0.85,
-        })
+        manager.set_baseline(
+            {
+                "test_001": 0.95,
+                "test_002": 0.90,
+                "test_003": 0.85,
+            }
+        )
 
         # Run with intentionally poor answers
         answers = {

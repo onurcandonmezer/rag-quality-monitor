@@ -74,13 +74,15 @@ def render_quality_overview() -> None:
                 TrendDirection.STABLE: "-",
                 TrendDirection.DEGRADING: "v",
             }.get(trend.direction, "?")
-            trends_data.append({
-                "Metric": trend.metric,
-                "Direction": f"{icon} {trend.direction.value}",
-                "Recent Avg": trend.recent_avg,
-                "Historical Avg": trend.historical_avg,
-                "Data Points": trend.data_points,
-            })
+            trends_data.append(
+                {
+                    "Metric": trend.metric,
+                    "Direction": f"{icon} {trend.direction.value}",
+                    "Recent Avg": trend.recent_avg,
+                    "Historical Avg": trend.historical_avg,
+                    "Data Points": trend.data_points,
+                }
+            )
         st.dataframe(pd.DataFrame(trends_data), use_container_width=True)
 
     st.subheader("Record New Evaluation")
@@ -108,9 +110,7 @@ def render_quality_overview() -> None:
             alerts = monitor.record_evaluation(scores)
 
             st.success(f"Overall Score: {result.overall_score:.4f}")
-            score_df = pd.DataFrame(
-                [{"Metric": k, "Score": v} for k, v in scores.items()]
-            )
+            score_df = pd.DataFrame([{"Metric": k, "Score": v} for k, v in scores.items()])
             st.dataframe(score_df, use_container_width=True)
 
             if alerts:
@@ -149,11 +149,13 @@ def render_hallucination_monitor() -> None:
             st.subheader("Claim Analysis")
             claims_data = []
             for claim in result.claims:
-                claims_data.append({
-                    "Claim": claim.text[:100] + ("..." if len(claim.text) > 100 else ""),
-                    "Status": claim.status.value,
-                    "Confidence": f"{claim.confidence:.2f}",
-                })
+                claims_data.append(
+                    {
+                        "Claim": claim.text[:100] + ("..." if len(claim.text) > 100 else ""),
+                        "Status": claim.status.value,
+                        "Confidence": f"{claim.confidence:.2f}",
+                    }
+                )
             st.dataframe(pd.DataFrame(claims_data), use_container_width=True)
 
         monitor: QualityMonitor = st.session_state.monitor
@@ -176,12 +178,14 @@ def render_golden_qa() -> None:
 
         pairs_data = []
         for pair in manager.qa_pairs:
-            pairs_data.append({
-                "ID": pair.id,
-                "Question": pair.question[:80] + "...",
-                "Difficulty": pair.difficulty,
-                "Tags": ", ".join(pair.tags),
-            })
+            pairs_data.append(
+                {
+                    "ID": pair.id,
+                    "Question": pair.question[:80] + "...",
+                    "Difficulty": pair.difficulty,
+                    "Tags": ", ".join(pair.tags),
+                }
+            )
         st.dataframe(pd.DataFrame(pairs_data), use_container_width=True)
 
         st.subheader("Run Test Suite")
@@ -191,9 +195,7 @@ def render_golden_qa() -> None:
         )
 
         if st.button("Run with Expected Answers (Baseline)"):
-            answers = {
-                pair.id: pair.expected_answer for pair in manager.qa_pairs
-            }
+            answers = {pair.id: pair.expected_answer for pair in manager.qa_pairs}
             result = manager.run_test_suite(answers=answers)
 
             col1, col2, col3 = st.columns(3)
@@ -247,15 +249,17 @@ def render_chunk_analysis() -> None:
             st.subheader("Chunk Quality Heatmap")
             heatmap_data = []
             for chunk in report.chunks:
-                heatmap_data.append({
-                    "Index": chunk.chunk_index,
-                    "Length": chunk.length,
-                    "Relevance": chunk.relevance_score,
-                    "Coherence": chunk.coherence_score,
-                    "Info Density": chunk.information_density,
-                    "Overlap": chunk.overlap_with_neighbors,
-                    "Issues": len(chunk.issues),
-                })
+                heatmap_data.append(
+                    {
+                        "Index": chunk.chunk_index,
+                        "Length": chunk.length,
+                        "Relevance": chunk.relevance_score,
+                        "Coherence": chunk.coherence_score,
+                        "Info Density": chunk.information_density,
+                        "Overlap": chunk.overlap_with_neighbors,
+                        "Issues": len(chunk.issues),
+                    }
+                )
             st.dataframe(pd.DataFrame(heatmap_data), use_container_width=True)
 
             if report.recommendations:
@@ -290,13 +294,15 @@ def render_alerts() -> None:
     if alerts:
         alerts_data = []
         for alert in alerts:
-            alerts_data.append({
-                "Severity": alert.severity.value.upper(),
-                "Metric": alert.metric,
-                "Current Value": f"{alert.current_value:.4f}",
-                "Threshold": f"{alert.threshold:.4f}",
-                "Message": alert.message,
-            })
+            alerts_data.append(
+                {
+                    "Severity": alert.severity.value.upper(),
+                    "Metric": alert.metric,
+                    "Current Value": f"{alert.current_value:.4f}",
+                    "Threshold": f"{alert.threshold:.4f}",
+                    "Message": alert.message,
+                }
+            )
         st.dataframe(pd.DataFrame(alerts_data), use_container_width=True)
     else:
         st.success("No alerts. System is healthy.")
@@ -315,13 +321,15 @@ def main() -> None:
 
     _init_session_state()
 
-    tab1, tab2, tab3, tab4, tab5 = st.tabs([
-        "Quality Overview",
-        "Hallucination Monitor",
-        "Golden Q&A Suite",
-        "Chunk Analysis",
-        "Alerts",
-    ])
+    tab1, tab2, tab3, tab4, tab5 = st.tabs(
+        [
+            "Quality Overview",
+            "Hallucination Monitor",
+            "Golden Q&A Suite",
+            "Chunk Analysis",
+            "Alerts",
+        ]
+    )
 
     with tab1:
         render_quality_overview()

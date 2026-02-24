@@ -103,7 +103,9 @@ class TestRAGEvaluator:
 
     def test_score_recall_full_coverage(self, evaluator):
         expected = "RAG combines retrieval with generation for better answers."
-        answer = "RAG combines retrieval with text generation to produce better, more grounded answers."
+        answer = (
+            "RAG combines retrieval with text generation to produce better, more grounded answers."
+        )
         score = evaluator.score_recall(answer, expected)
         assert score > 0.5
 

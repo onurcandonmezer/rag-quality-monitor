@@ -79,11 +79,51 @@ def _normalize_text(text: str) -> str:
 def _tokenize_simple(text: str) -> set[str]:
     """Simple tokenization into unique word set."""
     stop_words = {
-        "a", "an", "the", "is", "are", "was", "were", "be", "been", "being",
-        "have", "has", "had", "do", "does", "did", "will", "would", "could",
-        "should", "may", "might", "can", "to", "of", "in", "for", "on",
-        "with", "at", "by", "from", "as", "and", "but", "or", "not", "so",
-        "if", "it", "its", "this", "that", "these", "those",
+        "a",
+        "an",
+        "the",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "being",
+        "have",
+        "has",
+        "had",
+        "do",
+        "does",
+        "did",
+        "will",
+        "would",
+        "could",
+        "should",
+        "may",
+        "might",
+        "can",
+        "to",
+        "of",
+        "in",
+        "for",
+        "on",
+        "with",
+        "at",
+        "by",
+        "from",
+        "as",
+        "and",
+        "but",
+        "or",
+        "not",
+        "so",
+        "if",
+        "it",
+        "its",
+        "this",
+        "that",
+        "these",
+        "those",
     }
     normalized = _normalize_text(text)
     return {w for w in normalized.split() if w not in stop_words and len(w) > 1}
@@ -263,15 +303,9 @@ class HallucinationDetector:
 
         verified_claims = [self.verify_claim(claim, context) for claim in claims]
 
-        num_supported = sum(
-            1 for c in verified_claims if c.status == ClaimStatus.SUPPORTED
-        )
-        num_unsupported = sum(
-            1 for c in verified_claims if c.status == ClaimStatus.UNSUPPORTED
-        )
-        num_contradicted = sum(
-            1 for c in verified_claims if c.status == ClaimStatus.CONTRADICTED
-        )
+        num_supported = sum(1 for c in verified_claims if c.status == ClaimStatus.SUPPORTED)
+        num_unsupported = sum(1 for c in verified_claims if c.status == ClaimStatus.UNSUPPORTED)
+        num_contradicted = sum(1 for c in verified_claims if c.status == ClaimStatus.CONTRADICTED)
 
         total = len(verified_claims)
         weighted_unsupported = num_unsupported + num_contradicted * self.contradiction_penalty
